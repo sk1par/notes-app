@@ -10,6 +10,7 @@ export class NotesService {
   constructor() { }
 
   getAll() {
+    this.notes = JSON.parse(localStorage.getItem('notes')) || new Array<Note>();
     return this.notes;
   }
 
@@ -25,6 +26,7 @@ export class NotesService {
     // this method will add a note to the notes array and return this id of the note
     // where the id = index
     const newLength = this.notes.push(note);
+    localStorage.setItem('notes', JSON.stringify(this.notes));
     const index = newLength - 1;
     return index;
   }
@@ -33,9 +35,11 @@ export class NotesService {
     const note = this.notes[id];
     note.title = title;
     note.body = body;
+    localStorage.setItem('notes', JSON.stringify(this.notes));
   }
 
   delete(id: number) {
     this.notes.splice(id, 1);
+    localStorage.setItem('notes', JSON.stringify(this.notes));
   }
 }
